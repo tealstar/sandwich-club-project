@@ -27,8 +27,6 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
-
         Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
@@ -50,10 +48,6 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
-        Picasso.with(this)
-                .load(sandwich.getImage())
-                .into(ingredientsIv);
-
         String title = sandwich.getMainName();
         setTitle(title);
         populateUI();
@@ -67,16 +61,22 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI() {
 
+        ImageView ingredientsIv = findViewById(R.id.image_iv);
         TextView alsoKnownAsTextView = (TextView) findViewById(R.id.also_known_tv);
         TextView alsoKnownAsLabel = (TextView) findViewById(R.id.also_known_as_label);
         TextView originTextView = (TextView) findViewById(R.id.origin_tv);
+        TextView placeOfOriginLabel = (TextView) findViewById(R.id.place_of_origin_label);
         TextView descriptionTextView = (TextView) findViewById(R.id.description_tv);
         TextView ingredientsTextView = (TextView) findViewById(R.id.ingredients_tv);
 
+        Picasso.with(this)
+                .load(sandwich.getImage())
+                .error(R.drawable.image_not_avail)
+                .into(ingredientsIv);
 
         if (sandwich.getAlsoKnownAs().toString() == "[]") {
-            alsoKnownAsLabel.setVisibility(View.INVISIBLE);
-            alsoKnownAsTextView.setVisibility(View.INVISIBLE);
+            alsoKnownAsLabel.setVisibility(View.GONE);
+            alsoKnownAsTextView.setVisibility(View.GONE);
         } else {
 
             for (int i = 0; i < sandwich.getAlsoKnownAs().size(); i++) {
@@ -86,15 +86,18 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
+        if (sandwich.getPlaceOfOrigin().isEmpty()) {
+            originTextView.setVisibility(View.GONE);
+            placeOfOriginLabel.setVisibility(View.GONE);
+        } else {
+            originTextView.setText(sandwich.getPlaceOfOrigin());
+        }
 
-        originTextView.setText(sandwich.getPlaceOfOrigin());
         descriptionTextView.setText(sandwich.getDescription());
 
-        for(int i = 0; i < sandwich.getIngredients().size(); i++){
+        for (int i = 0; i < sandwich.getIngredients().size(); i++) {
             ingredientsTextView.append(sandwich.getIngredients().get(i));
             ingredientsTextView.append(" \n ");
         }
     }
-
-    String something = "339";
 }

@@ -26,14 +26,6 @@ public class Sandwich {
         this.ingredients = ingredients;
     }
 
-    public Sandwich(String mainName, List<String> alsoKnownAs, String placeOfOrigin, String description, List<String> ingredients) {
-        this.mainName = mainName;
-        this.alsoKnownAs = alsoKnownAs;
-        this.placeOfOrigin = placeOfOrigin;
-        this.description = description;
-        this.ingredients = ingredients;
-    }
-
     public String getMainName() {
         return mainName;
     }
